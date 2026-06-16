@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 
-const rootDir = process.cwd();
+const rootDir = path.parse(process.cwd()).root;;
 let currentDir = process.cwd();
 
 function getCurrentDirectory(){
