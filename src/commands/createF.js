@@ -1,5 +1,5 @@
-const { createFile, createFolder } = require("../core/filesystem");
-const { changeDirectory } = require("../core/workspace");
+const { createFile, createFolder } = require("../core/filesystem.js");
+const { changeDirectory } = require("../core/workspace.js");
 const path = require('path')
 
 function commandCreateFile(args,rl){
