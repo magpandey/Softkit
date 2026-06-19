@@ -2,7 +2,7 @@ const fs = require("fs");
 const {getCurrentDirectory} = require("../core/workspace.js");
 const path = require("path");
 
-function listFilesAndDirectory(input){
+function listFilesAndDirectory(){
     const dir = getCurrentDirectory();
     try {
         const items = fs.readdirSync(dir);
