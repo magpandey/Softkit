@@ -5,6 +5,8 @@ const goFunction = require("./go.js");
 const listFilesAndDirectory = require("./list.js");
 const commandCreateFile = require("./createF.js");
 const commandCreateFolder = require("./createD.js");
+const commandDeleteFile = require("./deleteF.js")
+const commandDeleteFolder = require("./deleteDir.js")
 
 const commands = {
     "help" : helpFunction,
@@ -13,7 +15,9 @@ const commands = {
     "get-into" : goFunction,
     "give-info" : listFilesAndDirectory,
     "create-f"  : commandCreateFile,
-    "create-dir" : commandCreateFolder
+    "create-dir" : commandCreateFolder,
+    "del-f" : commandDeleteFile,
+    "del-dir" : commandDeleteFolder
 }
 
 module.exports = commands
