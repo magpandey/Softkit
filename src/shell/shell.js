@@ -23,7 +23,6 @@ function startShell(){
         }
         rl.prompt();
     });
-
     rl.on("close",() => {
         console.log("Exiting.....");
         process.exit(0);
