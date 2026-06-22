@@ -9,6 +9,7 @@ function commandDeleteFolder(args, rl) {
     const force = args[1] === "--force";
 
     rl.question(`Are you sure you want to delete ${args[0]}? (y/n): `, (ans) => {
+        
         if (ans.trim().toLowerCase() === 'y') {
             const { message } = deleteFolder(args[0], force);
             console.log(message);

@@ -74,5 +74,39 @@ function deleteFolder(foldername, force) {
     }
 }
 
+function moveFile(source, destination) {
+    const resolvedSource = path.resolve(getCurrentDirectory(), source);
+    const resolvedDest = path.resolve(getCurrentDirectory(), destination);
 
-module.exports = {createFile,createFolder,deleteFile,deleteFolder};
+    if (!fs.existsSync(resolvedSource)) {
+        return { success: false, message: `Source file does not exist: ${source}` };
+    }
+
+    if (fs.statSync(resolvedSource).isDirectory()) {
+        return { success: false, message: `Source is a folder, not a file: ${source}` };
+    }
+
+    if (!fs.existsSync(resolvedDest)) {
+        return { success: false, message: `Destination does not exist: ${destination}` };
+    }
+
+    const finalDest = fs.statSync(resolvedDest).isDirectory()
+        ? path.join(resolvedDest, path.basename(resolvedSource))
+        : resolvedDest;
+
+    if (fs.existsSync(finalDest)) {
+        return { success: false, message: `File already exists at destination: ${path.basename(finalDest)}` };
+    }
+
+    try {
+        fs.copyFileSync(resolvedSource, finalDest);
+        fs.unlinkSync(resolvedSource);
+        return { success: true, message: `File moved: ${source} → ${finalDest}` };
+    } catch (error) {
+        return { success: false, message: `Could not move file: ${error.message}` };
+    }
+}
+
+
+
+module.exports = {createFile,createFolder,deleteFile,deleteFolder,moveFile};
