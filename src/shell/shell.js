@@ -9,7 +9,7 @@ function startShell(){
         prompt: "Softkit >"
     });
 
-    console.log("Welcome to SoftKit ! Type 'help' for list of commands");
+    logger.success("Welcome to SoftKit ! Type 'help' for list of commands");
     rl.prompt();
     rl.on("line", (line) => {
         const input = line.trim();
