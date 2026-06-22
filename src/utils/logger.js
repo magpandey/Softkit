@@ -18,5 +18,7 @@ function info(message) {
 function question(message) {
     return "\x1b[33m" + message + "\x1b[0m";
 }
-
-module.exports = { success, error, warn, info,question };
+function newline(){
+    console.log("")
+}
+module.exports = { success, error, warn, info,question,newline };

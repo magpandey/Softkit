@@ -1,30 +1,39 @@
 const fs = require("fs");
-const {getCurrentDirectory} = require("../core/workspace.js");
 const path = require("path");
+const { getCurrentDirectory } = require("../core/workspace.js");
+const logger = require('../utils/logger.js');
 
-function listFilesAndDirectory(){
+function listFilesAndDirectory(args, rl) {
     const dir = getCurrentDirectory();
+
     try {
         const items = fs.readdirSync(dir);
-        if(items.length === 0){
-            console.log(`${dir} is empty`);
+
+        if (items.length === 0) {
+            logger.warn(`${dir} is empty`);
             return;
         }
-        console.log(`\nContents of ${dir}:\n`);
+
+        logger.newline()
+        logger.info(`Contents of ${dir}:`);
+        logger.newline()
 
         items.forEach(e => {
-            const fullpath = path.join(dir,e);
-            const isDir = fs.statSync(fullpath).isDirectory();
+            const fullPath = path.join(dir, e);
+            const isDir = fs.statSync(fullPath).isDirectory();
 
-             if (isDir) {
-                console.log(`  [DIR]  ${e}`);
+            if (isDir) {
+                logger.info(`  [DIR]  ${e}`);
             } else {
-                console.log(`  [FILE] ${e}`);
-            } 
+                logger.info(`  [FILE] ${e}`);
+            }
         });
-        console.log("");
+
+        logger.newline()
+
     } catch (error) {
-        console.log(`Could'nt read the directory : ${error.message}`)
+        logger.error(`Could not read directory: ${error.message}`);
     }
 }
-module.exports = listFilesAndDirectory
+
+module.exports = listFilesAndDirectory;

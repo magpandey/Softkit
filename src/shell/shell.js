@@ -1,7 +1,7 @@
 const readLine = require("readline");
 const parser = require("../parser/parser.js");
 const commands = require("../commands/index.js");
-
+const logger = require('../utils/logger.js')
 function startShell(){
     const rl = readLine.createInterface({
         input: process.stdin,
@@ -24,7 +24,7 @@ function startShell(){
         rl.prompt();
     });
     rl.on("close",() => {
-        console.log("Exiting.....");
+        logger.success("Exiting.....");
         process.exit(0);
     }); 
 }

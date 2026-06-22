@@ -1,15 +1,20 @@
 const { moveFile } = require('../core/fileSystem');
-
+const logger = require('../utils/logger.js')
 function commandMoveFile(args, rl) {
     if (args.length === 0) {
-        console.log("Provide a filename to move");
+        logger.warn("Provide a filename to move");
         return;
     }
 
-    rl.question("Where to move the file to?: ", (ans) => {
-        const { message } = moveFile(args[0], ans);
-        console.log(message);
-        rl.prompt();
+    rl.question(logger.question("Where to move ? : "), (ans) => {
+        const { success,message } = moveFile(args[0], ans);
+        if(success){
+            logger.success(message);
+        }else{
+            logger.error(message)
+        }
+        rl.prompt()
+       
     });
 }
 

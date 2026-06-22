@@ -1,15 +1,15 @@
-const {getCurrentDirectory,changeDirectory} = require("../core/workspace.js")
-
+const {changeDirectory} = require("../core/workspace.js")
+const logger = require('../utils/logger.js')
 function goFunction(args,rl){
     if(args.length === 0){
-        console.log("Please provide a Respective directory to navigate");
+        logger.warn("Please provide a Respective directory to navigate");
         return;
     }
     const {success, path, message} = changeDirectory(args[0])
     if(success){
-        console.log("Moved to " + path);
+        logger.success("Moved to " + path);
     }else{
-        console.log(message);
+        logger.error(message);
     }
 }
 
