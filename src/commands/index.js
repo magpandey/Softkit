@@ -8,6 +8,7 @@ const commandCreateFolder = require("./createD.js");
 const commandDeleteFile = require("./deleteF.js")
 const commandDeleteFolder = require("./deleteDir.js");
 const commandMoveFile = require("./moveF.js");
+const commandRun = require("./runF.js");
 
 const commands = {
     "help" : helpFunction,
@@ -19,7 +20,8 @@ const commands = {
     "create-dir" : commandCreateFolder,
     "del-f" : commandDeleteFile,
     "del-dir" : commandDeleteFolder,
-    "move-f" : commandMoveFile
+    "move-f" : commandMoveFile,
+    "run-file" : commandRun
 }
 
 module.exports = commands
