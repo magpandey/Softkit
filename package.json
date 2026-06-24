@@ -2,10 +2,11 @@
   "name": "softkit",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "electron/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev" : "node src/index.js"
+    "dev": "node src/index.js",
+    "start": "electron ."
   },
   "keywords": [],
   "author": "",
