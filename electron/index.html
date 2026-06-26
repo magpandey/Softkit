@@ -59,4 +59,14 @@
     </div>
    </div>
 </body>
+
+<script>
+    const input = document.getElementById('command');
+    input.addEventListener('keydown',(e) => {
+        if(e.key == "Enter"){
+            softkit.sendCommand(input.value);
+            input.value = '';
+        }
+    })
+</script>
 </html>
