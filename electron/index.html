@@ -1,22 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Softkit</title>
+    <title>Softkit - CLI toolkit</title>
     <style>
-        body{
-            background: black;
-            color: lime;
-            font-family: monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-size: 2rem;
-        }
+       *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+       }
+       body{
+        background: #000;
+        color: #fff;
+        font-family: Consolas,"Courier New",monospace;
+        font-size: 17px;
+        overflow: hidden;
+       }
+       
+
+       .welcome{
+        color: #39ff14;
+       }
+       #output{
+        white-space: pre-wrap;
+       }
+       #prompt{
+        display: flex;
+        align-items: center;
+       }
+       #cwd{
+        color: #30ff14;
+        margin-right: 8px;
+       }
+       #command{
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        font: inherit
+       }
     </style>
 </head>
 <body>
-    <h1>Softkit - CLI Tool -bash</h1>
+   <div id="terminal">
+    <div id="output">
+        <div class="welcome">Softkit v1.0.0</div>
+        <div>Type 'help' to list commands.</div>
+        <br>
+
+    </div>
+    <div id="prompt">
+        <span id="cwd">Softkit ></span>
+        <input type="text",
+        id="command",
+        autocomplete="off",
+        autofocus
+        >
+    </div>
+   </div>
 </body>
 </html>
