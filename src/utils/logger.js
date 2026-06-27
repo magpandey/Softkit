@@ -39,7 +39,13 @@ function newline() {
 }
 
 function question(message) {
-    return '\x1b[33m' + message + '\x1b[0m';
+    if (ipcSender) {
+        // in Electron — return plain string, renderer will color it via CSS
+        return `[QUESTION] ${message}`;
+    } else {
+        // in CLI — return ANSI colored string for terminal
+        return '\x1b[33m' + message + '\x1b[0m';
+    }
 }
 
 module.exports = { success, error, warn, info, newline, question, setIPCMode };

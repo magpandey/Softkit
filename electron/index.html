@@ -1,72 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>Softkit - CLI toolkit</title>
     <style>
-       *{
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-       }
-       body{
-        background: #000;
-        color: #fff;
-        font-family: Consolas,"Courier New",monospace;
-        font-size: 17px;
-        overflow: hidden;
-       }
-       
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: #0a0a0a;
+            color: #f0f0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+        }
 
-       .welcome{
-        color: #39ff14;
-       }
-       #output{
-        white-space: pre-wrap;
-       }
-       #prompt{
-        display: flex;
-        align-items: center;
-       }
-       #cwd{
-        color: #30ff14;
-        margin-right: 8px;
-       }
-       #command{
-        flex: 1;
-        background: transparent;
-        border: none;
-        outline: none;
-        color: white;
-        font: inherit
-       }
+        #output {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 12px;
+        }
+
+        .line {
+            padding: 2px 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .success { color: #4caf50; }
+        .error   { color: #f44336; }
+        .warn    { color: #ff9800; }
+        .info    { color: #29b6f6; }
+        .default { color: #f0f0f0; }
+
+        #input-line {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+
+        #prompt {
+            color: #4caf50;
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+
+        #command-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #f0f0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            caret-color: #4caf50;
+        }
     </style>
 </head>
 <body>
-   <div id="terminal">
-    <div id="output">
-        <div class="welcome">Softkit v1.0.0</div>
-        <div>Type 'help' to list commands.</div>
-        <br>
 
-    </div>
-    <div id="prompt">
-        <span id="cwd">Softkit ></span>
-        <input type="text",
-        id="command",
-        autocomplete="off",
-        autofocus
-        >
-    </div>
-   </div>
-</body>
+    <div id="output"></div>
 
-<script>
-    const input = document.getElementById('command');
-    input.addEventListener('keydown',(e) => {
-        if(e.key == "Enter"){
-            softkit.sendCommand(input.value);
-            input.value = '';
+    <div id="input-line">
+        <span id="prompt">Softkit ></span>
+        <input id="command-input" type="text" autofocus autocomplete="off" />
+    </div>
+
+    <script>
+        const input = document.getElementById('command-input');
+        const output = document.getElementById('output');
+        let awaitingAnswer = false;
+
+        // figure out which CSS class to apply based on message prefix
+        function getLineClass(text) {
+            if (text.startsWith('[SUCCESS]')) return 'success';
+            if (text.startsWith('[ERROR]'))   return 'error';
+            if (text.startsWith('[WARN]'))    return 'warn';
+            if (text.startsWith('[INFO]'))    return 'info';
+            if(text.startsWith('[QUESTION]')) return 'warn'
+            return 'default';
         }
-    })
-</script>
+
+        function appendOutput(text) {
+            const line = document.createElement('div');
+            line.className = 'line ' + getLineClass(text);
+            line.textContent = text;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight; // auto scroll to bottom
+        }
+
+        // listen for output from main
+        window.softkit.onOutput((data) => {
+            appendOutput(data);
+        });
+
+        // listen for questions from main
+        window.softkit.onQuestion((prompt) => {
+            awaitingAnswer = true;
+            appendOutput(prompt);
+        });
+
+        // handle Enter key
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const value = input.value.trim();
+                input.value = '';
+
+                if (!value) return;
+
+                if (awaitingAnswer) {
+                    awaitingAnswer = false;
+                    appendOutput(value); // show what user typed
+                    window.softkit.sendAnswer(value);
+                } else {
+                    appendOutput(`Softkit > ${value}`); // echo command
+                    window.softkit.sendCommand(value);
+                }
+            }
+        });
+    </script>
+
+</body>
 </html>
